@@ -1,0 +1,1 @@
+For local testing on win configure [environment variables in powershell](https://www.tutorialspoint.com/how-to-set-environment-variables-using-powershell).
