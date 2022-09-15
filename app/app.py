@@ -4,4 +4,4 @@ app = Flask(__name__)
 
 @app.route('/')
 def get_main_page():
-    render_template('index.html')
+    return render_template('index.html')
