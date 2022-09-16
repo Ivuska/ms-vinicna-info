@@ -15,7 +15,7 @@
 
           <div>
             <i class="far fa-envelope"></i>
-            <input class="input" type="email" name="" id="email" placeholder="Email Address" />
+            <input class="input" type="email" name="input_email" id="email" placeholder="Email Address" />
 
             <i> <img src="{{ 'images/icon-error.svg' }}" class="failure-icon" alt="" aria-hidden="true"></i>
             <i class="far fa-check-circle success-icon"></i>
@@ -24,9 +24,9 @@
             </div>
           </div>
 
-          <button class="submit-form-button" formnovalidate id="btn" type="submit">POSÍLEJTE MI ČLÁNKY </button>
+          <button class="submit-form-button" formnovalidate id="btn" type="submit">POSÍLEJTE MI ČLÁNKY</button>
             <p class="terms">
-              Odesláním souhlasím, že jsem si přečetl/a <a href="https://www.frontendmentor.io?ref=challenge"
+              Odesláním souhlasím, že jsem si přečetl/a <a href="{{ url_for('show_gdpr_page') }}"
                 target="_blank"><span>Informovaný souhlas</span></a> a souhlasím s ním.
             </p>
         </form>
