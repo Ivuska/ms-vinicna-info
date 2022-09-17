@@ -1,2 +1,4 @@
+flask
 requests
 git+https://github.com//mardix/flask-recaptcha/@b70c45a
+python-dotenv
