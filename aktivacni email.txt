@@ -1,0 +1,13 @@
+- nova tabulka v KV Cloudflare - klic = token, ktery vygeneruju treba pres uuid, hodnota je email
+- pri registraci uzivatele vygeneruju token, vlozim do te tabulky spolu s emailovou adresou a 
+  zaroven poslu email s linkem, ktery obsahuje jen token
+- link bude neco jako 'adresanamojidomenu/aktivace/:token'
+- uzivatel klikne na link, zavola se tahle routa 
+- tim ziskam ten token, ktery uzivatel potvrzuje
+- overim, ze token existuje v tabulce tokenu a ziskam email, ktery u toho tokenu je - pokud link expiruje zobrazim flash ze token je neplatny
+- odstranim token z tabulky a zaroven do te tabulky emailu pridam ten email
+- presmerovat na index a flask diky za aktivaci
+
+
+platnost tokenu - KV zaznamu nastavim zivotnost
+jde to mit zvlast v py souboru a ten pak improtovat do app (posilani emailu, aktivaci tokenu)

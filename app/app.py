@@ -9,6 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'rbYPVS3hLzIToOJ'
+app.templates_auto_reload = True
 
 app.config['RECAPTCHA_SITE_KEY'] = os.environ.get('RECAPTCHA_SITE_KEY') 
 app.config['RECAPTCHA_SECRET_KEY'] = os.environ.get('RECAPTCHA_SECRET_KEY') 
