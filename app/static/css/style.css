@@ -4,6 +4,7 @@
 
 @layer base {
     html {
-      font-family: Poppins, system-ui, sans-serif;
+      font-size: 30px;
+      line-height: 40px;
     }
   }
