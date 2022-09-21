@@ -22,3 +22,7 @@ function setMode(){
 
     }
 }
+
+function closeFlashMessage() {
+    document.getElementById('flashmessage').style.display='none';
+}
