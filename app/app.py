@@ -1,3 +1,4 @@
+import email
 from flask import Flask, flash, render_template, redirect, url_for, request, session
 from dotenv import load_dotenv
 import os
@@ -29,6 +30,18 @@ def submit_new_email():
         flash('Potvrďte prosím, že nejste robot.')
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
+
+    if email_address == '':
+        flash('Vyplňte prosím emailovou adresu.')
+        session['email_address'] = email_address
+        return redirect(url_for('get_main_page'))
+    
+    if '@' not in email_address :
+        flash('Emailová adresa nemá správný formát.')
+        session['email_address'] = email_address
+        return redirect(url_for('get_main_page'))
+
+
 
     r = requests.post(worker_url + '/email', json={ "email": email_address })
 
