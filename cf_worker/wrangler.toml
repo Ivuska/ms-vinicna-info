@@ -9,3 +9,8 @@ compatibility_date = "2022-09-23"
   binding ="NOVINKY_ZE_SKOLKY"
   id =  "4f423bf1d6e84202b732e0c581a8bc16"
   preview_id = "novinky-ze-skolky-test"
+
+[[kv_namespaces]]
+  binding ="NOVINKY_ZE_SKOLKY_AKTIVACE"
+  id =  "4b515f1f86614a45ad3a3a77f73e45b6"
+  preview_id = "novinky-ze-skolky-aktivace-test"
