@@ -7,5 +7,5 @@ compatibility_date = "2022-09-23"
 
 [[kv_namespaces]]
   binding ="NOVINKY_ZE_SKOLKY"
-  id =  "novinky-ze-skolky"
+  id =  "4f423bf1d6e84202b732e0c581a8bc16"
   preview_id = "novinky-ze-skolky-test"
