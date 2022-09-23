@@ -1,0 +1,22 @@
+name: CF WORKER
+
+on:
+  push:
+    paths:
+      cf_worker/*
+
+  workflow_dispatch:
+
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          workingDirectory: 'cf_worker'
