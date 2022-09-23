@@ -6,16 +6,10 @@ addEventListener("fetch", (event) => {
     );
   });
 
-  async function parseRequestBody(request) {
-    const reader = request.body.getReader();
-    const data = (await reader.read()).value;
-    const decoded = new TextDecoder().decode(data);
-    return JSON.parse(decoded);
-  }
 
   async function handleLastIdRequest(request) {
     if (request.method==='POST') {
-      const val = await parseRequestBody(request)
+      const val = await request.json();
       await NOVINKY_ZE_SKOLKY.put('last_id',val.last_id);
       return new Response();
     } else if (request.method==='GET') {
@@ -24,7 +18,7 @@ addEventListener("fetch", (event) => {
         headers: { "Content-Type": "application/json" },
       });
     } else {
-      return new Response(null,{ status: 405 })
+      return new Response(null,{ status: 405 });
     }
   }
 
@@ -34,29 +28,29 @@ addEventListener("fetch", (event) => {
       if (listOfEmails===null) {
         listOfEmails = [];
       }
-      const val = await parseRequestBody(request)
+      const val = await request.json();
       if (listOfEmails.some((elem) => elem===val.email)) {
-        return new Response(null, { status: 409 })
+        return new Response(null, { status: 409 });
       }
-      listOfEmails.push(val.email)
+      listOfEmails.push(val.email);
       await NOVINKY_ZE_SKOLKY.put('emails', JSON.stringify(listOfEmails));
       return new Response();
     } else if (request.method==='GET') {
-      const val = await NOVINKY_ZE_SKOLKY.get('emails',{ type: 'text' })
+      const val = await NOVINKY_ZE_SKOLKY.get('emails',{ type: 'text' });
       return new Response(val, {
         headers: { "Content-Type": "application/json" },
       });
     } else if (request.method==='DELETE') {
       let listOfEmails = await NOVINKY_ZE_SKOLKY.get('emails', { type: 'json' });
-      const val = await parseRequestBody(request)
-      const index = listOfEmails.indexOf(val.email)
+      const val = await request.json();
+      const index = listOfEmails.indexOf(val.email);
       if (index > -1) {
-        listOfEmails.splice(index, 1)
+        listOfEmails.splice(index, 1);
       }
       await NOVINKY_ZE_SKOLKY.put('emails', JSON.stringify(listOfEmails));
       return new Response(null,{ status: 204 });
     } else {
-      return new Response(null,{ status: 405 })
+      return new Response(null,{ status: 405 });
     }
   }
   
