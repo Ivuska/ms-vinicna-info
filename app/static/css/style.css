@@ -8,3 +8,19 @@
       line-height: 40px;
     }
   }
+
+.flash-error {
+  @apply bg-red-300 text-red-900 ;
+}
+
+.flash-close-error {
+  @apply text-red-900  hover:text-red-500 focus:text-red-500;
+}
+
+.flash-success {
+  @apply bg-green-300 text-green-900 ;
+}
+
+.flash-close-success {
+  @apply text-green-900  hover:text-green-500 focus:text-green-500;
+}

@@ -5,6 +5,8 @@ import os
 import requests
 from flask_recaptcha import ReCaptcha
 
+from app.send_emails import send_activation_email
+
 # Load environment variables from .env file.
 load_dotenv()
 
@@ -30,26 +32,30 @@ def get_main_page():
 def submit_new_email():
     email_address = request.form['input_email'] 
     if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
-        flash('Potvrďte prosím, že nejste robot.')
+        flash('Potvrďte prosím, že nejste robot.', 'error')
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
 
     if email_address == '':
-        flash('Vyplňte prosím emailovou adresu.')
+        flash('Vyplňte prosím emailovou adresu.', 'error')
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
     
     if '@' not in email_address :
-        flash('Emailová adresa nemá správný formát.')
+        flash('Emailová adresa nemá správný formát.', 'error')
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
 
-    r = requests.post(worker_url + '/email', json={ "email": email_address })
+    r = requests.put(worker_url + '/activation', json={ "email": email_address })
 
-    if r.status_code == 409:
-        flash('Tenhle email už známe.')
+    token = r.json().get('token', None)
+
+    if not token:
+        flash('Registrace se nezdařila, zkuste opakovat akci.', 'error')
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
+
+    send_activation_email(email_address, token)
 
     session.pop('email_address', None)
     return redirect(url_for('show_thank_you_landing_page'))
@@ -62,9 +68,28 @@ def show_thank_you_landing_page():
 def show_gdpr_page():
     return render_template('gdpr.html')
 
+@app.route('/activation/<string:token>')
+def activate_email(token):
+    r = requests.post(worker_url + '/activation', json={ 'token': token })
+    
+    if r.status_code == 409:
+        flash('Tenhle email je již aktivován.', 'error')
+        return redirect(url_for('get_main_page'))
+
+    if r.status_code == 404:
+        flash('Platnost linku vypršela.', 'error')
+        return redirect(url_for('get_main_page'))
+    
+    if r.status_code != 200:
+        flash('Neočekávaná chyba, zkuste to prosím později.', 'error')
+        return redirect(url_for('get_main_page'))
+    
+    flash('Email byl úspěšně aktivován.', 'success')
+    return redirect(url_for('get_main_page'))
+
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
-    flash(f'{ e.description }')
+    flash(f'{ e.description }', 'error')
     return redirect(url_for('get_main_page'))
 
 @app.before_request
