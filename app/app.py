@@ -28,6 +28,11 @@ def get_main_page():
     email_address = session.pop('email_address', '')    
     return render_template('index.html', email_address=email_address)
 
+@app.route('/unsubscribe', methods=['GET'])
+def get_unsubscribe_page():
+    email_address = session.pop('email_address', '')
+    return render_template('unsubscribe.html', email_address=email_address)
+
 @app.route('/', methods=['POST'])
 def submit_new_email():
     email_address = request.form['input_email'] 
@@ -86,6 +91,29 @@ def activate_email(token):
     
     flash('Email byl úspěšně aktivován.', 'success')
     return redirect(url_for('get_main_page'))
+
+@app.route('/unsubscribe', methods=['POST'])
+def unsubscribe_email():
+    email_address = request.form['input_email'] 
+    if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
+        flash('Potvrďte prosím, že nejste robot.', 'error')
+        session['email_address'] = email_address
+        return redirect(url_for('get_unsubscribe_page'))
+
+    if email_address == '':
+        flash('Vyplňte prosím emailovou adresu.', 'error')
+        session['email_address'] = email_address
+        return redirect(url_for('get_unsubscribe_page'))
+    
+    if '@' not in email_address :
+        flash('Emailová adresa nemá správný formát.', 'error')
+        session['email_address'] = email_address
+        return redirect(url_for('get_unsubscribe_page'))
+
+    r = requests.delete(worker_url + '/email', json={ "email": email_address })
+
+    flash('Odběr článků je zrušen.', 'success')
+    return redirect(url_for('get_unsubscribe_page'))
 
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
