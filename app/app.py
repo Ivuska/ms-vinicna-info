@@ -51,7 +51,7 @@ def submit_new_email():
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
 
-    r = requests.put(worker_url + '/activation', json={ "email": email_address })
+    r = requests.put(worker_url + '/activation', json={ "email": email_address }, headers={ 'Authorization': os.environ.get('WORKER_AUTH_TOKEN')})
 
     token = r.json().get('token', None)
 
@@ -75,7 +75,7 @@ def show_gdpr_page():
 
 @app.route('/activation/<string:token>')
 def activate_email(token):
-    r = requests.post(worker_url + '/activation', json={ 'token': token })
+    r = requests.post(worker_url + '/activation', json={ 'token': token }, headers={ 'Authorization': os.environ.get('WORKER_AUTH_TOKEN')})
     
     if r.status_code == 409:
         flash('Tenhle email je již aktivován.', 'error')
@@ -110,7 +110,7 @@ def unsubscribe_email():
         session['email_address'] = email_address
         return redirect(url_for('get_unsubscribe_page'))
 
-    r = requests.delete(worker_url + '/email', json={ "email": email_address })
+    r = requests.delete(worker_url + '/email', json={ "email": email_address }, headers={ 'Authorization': os.environ.get('WORKER_AUTH_TOKEN')})
 
     flash('Odběr článků je zrušen.', 'success')
     return redirect(url_for('get_unsubscribe_page'))

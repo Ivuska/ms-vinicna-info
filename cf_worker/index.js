@@ -80,6 +80,10 @@ addEventListener("fetch", (event) => {
    * @returns {Promise<Response>}
    */
   async function handleRequest(request) {
+    if (request.headers.get('Authorization') !== env.AUTH_TOKEN) {
+      return new Response('Unauthorized', { status: 401 })
+    }
+
     const { pathname } = new URL(request.url);
   
     if (pathname==='/last_id') {

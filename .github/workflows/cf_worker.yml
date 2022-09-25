@@ -20,3 +20,6 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           workingDirectory: 'cf_worker'
+          secrets: AUTH_TOKEN
+        env:
+          AUTH_TOKEN: ${{ secrets.WORKER_AUTH_TOKEN }}
