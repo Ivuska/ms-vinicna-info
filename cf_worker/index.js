@@ -80,7 +80,7 @@ addEventListener("fetch", (event) => {
    * @returns {Promise<Response>}
    */
   async function handleRequest(request) {
-    if (request.headers.get('X-Auth-Token') !== env.AUTH_TOKEN) {
+    if (request.headers.get('X-Auth-Token') !== AUTH_TOKEN) {
       return new Response('Unauthorized', { status: 401 })
     }
 
@@ -101,3 +101,4 @@ addEventListener("fetch", (event) => {
   
     return new Response(null, { status: 404 })
   }
+
