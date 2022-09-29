@@ -6,7 +6,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
-    <div class="flex flex-row-reverse rounded text-sm text-left p-3 flash-{{category}}" id="flashmessage">
+    <div class="flex flex-row-reverse rounded text-[16px] sm:text-sm text-left p-1 sm:p-3 flash-{{category}}" id="flashmessage">
       <div>
         <a class="cursor-pointer" href="#" onclick="closeFlashMessage()">
           <i class="fa-solid fa-xmark flash-close-{{ category }}"></i>
@@ -23,10 +23,10 @@
   </section>
 
   <section class="flex flex-col justify-center items-center">
-    <h1 class="text-indigo-600 text-center font-extrabold text-3xl my-5 uppercase">{% block title %} Info ze školky do
+    <h1 class="text-indigo-600 text-center font-extrabold text-xl md:text-3xl my-5 uppercase">{% block title %} Info ze školky do
       mailu {% endblock %}</h1>
 
-    <p class="text-center mb-8 md:mb-12 text-l dark:text-white">Pro všechny, které nebaví pořád kontrolovat web školky.</p>
+    <p class="text-center mb-8 md:mb-12 text-sm sm:text-l dark:text-white">Pro všechny, které nebaví pořád kontrolovat web školky.</p>
   </section>
 
   <section>
@@ -43,7 +43,7 @@
         {{ recaptcha }}
       </div>
       <button
-        class="rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 hover:bg-indigo-600text-l font-bold px-6 py-5 my-8"
+        class="rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 focus:bg-indigo-600 text-sm sm:text-l font-bold px-6 py-5 my-8"
         formnovalidate id="btn" type="submit">Chci články</button>
       <p class="flex md:inline flex-grow flex-col leading-2 text-[16px] md:text-xs dark:text-white">
         Odesláním potvrzuji, že jsem si přečetl/a <a
