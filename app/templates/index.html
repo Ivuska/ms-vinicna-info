@@ -24,25 +24,25 @@
   </section>
   <section class="flex flex-row-reverse w-5/6">
     <a href="#" onclick="setMode()">
-      <i class="fa-solid dark:text-white text-xl" aria-hidden="true" id="darkmodeicon"></i>
+      <i class="fa-solid text-xl dark:text-white hover:text-indigo-600 focus:text-indigo-600 dark:hover:text-indigo-600 dark:focus:text-indigo-600" aria-hidden="true" id="darkmodeicon"></i>
       <span class="sr-only">Toggle dark/light mode</span>
     </a>
   </section>
 
-  <section class="flex flex-col justify-center">
+  <section class="flex flex-col justify-center items-center">
     <h1 class="text-indigo-600 text-center font-extrabold text-3xl my-5 uppercase">{% block title %} Info ze školky do
       mailu {% endblock %}</h1>
 
-    <p class="text-center mb-12 text-l dark:text-white">Pro všechny, které nebaví pořád kontrolovat web školky.</p>
+    <p class="text-center mb-8 md:mb-12 text-l dark:text-white">Pro všechny, které nebaví pořád kontrolovat web školky.</p>
   </section>
 
   <section>
     <form class="flex grow flex-col justify-center items-center text-center m-0" method="post" id="form" action="/">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-      <div class="flex grow justify-items-center items-center space-x-3">
-        <i class="far fa-envelope text-4xl text-center  text-indigo-600"></i>
+      <div class="flex grow flex-col md:flex-row justify-items-center items-center md:space-x-3">
+        <i class="far fa-envelope text-4xl text-center  text-indigo-600 mb-2 md:mb-0"></i>
         <input
-          class="text-sm rounded dark:bg-slate-200 border-solid hover:border-4 focus:border-4 border-indigo-300 dark:border-indigo-500 w-80 px-8 py-2"
+          class="text-sm rounded dark:bg-slate-200 border-solid hover:border-4 focus:border-4 border-indigo-300 dark:border-indigo-500 w-4/5 py-2 px-2 sm:px-8"
           type="email" name="input_email" id="email" placeholder="email" value="{{ email_address }}" required />
 
       </div>
@@ -52,7 +52,7 @@
       <button
         class="rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 hover:bg-indigo-600text-l font-bold px-6 py-5 my-8"
         formnovalidate id="btn" type="submit">Chci články</button>
-      <p class="text-xs dark:text-white">
+      <p class="flex md:inline flex-grow flex-col leading-2 text-[16px] md:text-xs dark:text-white">
         Odesláním potvrzuji, že jsem si přečetl/a <a
           class="text-indigo-400  hover:text-indigo-600  focus:text-indigo-600" href="{{ url_for('show_gdpr_page') }}"><span>Informovaný souhlas</span></a>&nbsp;a přijímám jej.
       </p>
