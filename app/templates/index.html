@@ -2,7 +2,6 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-<main class="flex grow flex-col justify-center items-center text-center w-4/5 p-4 bg-slate-200 dark:bg-slate-800">
   <section class="w-4/6">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -21,12 +20,6 @@
     {% endfor %}
     {% endif %}
     {% endwith %}
-  </section>
-  <section class="flex flex-row-reverse w-5/6">
-    <a href="#" onclick="setMode()">
-      <i class="fa-solid text-xl dark:text-white hover:text-indigo-600 focus:text-indigo-600 dark:hover:text-indigo-600 dark:focus:text-indigo-600" aria-hidden="true" id="darkmodeicon"></i>
-      <span class="sr-only">Toggle dark/light mode</span>
-    </a>
   </section>
 
   <section class="flex flex-col justify-center items-center">
@@ -58,5 +51,4 @@
       </p>
     </form>
   </section>
-</main>
 {% endblock %}

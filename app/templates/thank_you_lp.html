@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'base.html' %}
 {% block title %} Info ze školky do mailu {% endblock %}
 
-<body>
-    {% block content %}
-    <main class="p-4">
-        <section class="flex grow flex-col justify-center items-center">
-            <h1 class="text-indigo-600 text-center font-extrabold text-3xl my-5 uppercase">Úspěšně odesláno</h1>
-            <p class="dark:text-white text-center">Potvrďte prosím emailovou adresu klikem na link v zaslaném emailu.</p>
-        </section>
-    </main>
-    {% endblock %}
-</body>
 
-</html>
+{% block content %}
+<section class="flex grow flex-col justify-center items-center">
+    <h1 class="text-indigo-600 text-center font-extrabold text-3xl my-5 uppercase">Úspěšně odesláno</h1>
+    <p class="dark:text-white text-center">Potvrďte prosím emailovou adresu klikem na link v zaslaném emailu.</p>
+</section>
+{% endblock %}
