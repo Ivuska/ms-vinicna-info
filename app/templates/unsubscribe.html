@@ -30,18 +30,18 @@
   </section>
 
   <section class="flex flex-col justify-center">
-    <h1 class="text-indigo-600 text-center font-extrabold text-3xl my-5 uppercase">Nechci dostávat info ze školky</h1>
+    <h1 class="text-indigo-600 text-center font-extrabold text-xl md:text-3xl my-5 uppercase">Nechci dostávat info ze školky</h1>
 
-    <p class="text-center mb-12 text-l dark:text-white">Vyplňte prosím email, který chcete odhlásit z odběru článků.</p>
+    <p class="text-center mb-7 md:mb-12 text-sm sm:text-l dark:text-white">Vyplňte prosím email, který chcete odhlásit z odběru článků.</p>
   </section>
 
   <section>
     <form class="flex grow flex-col justify-center items-center text-center m-0" method="post" id="form" action="/unsubscribe">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-      <div class="flex grow justify-items-center items-center space-x-3">
-        <i class="far fa-envelope text-4xl text-center  text-indigo-600"></i>
+      <div class="flex grow flex-col md:flex-row justify-items-center items-center md:space-x-3">
+        <i class="far fa-envelope text-3xl sm:text-4xl text-center  text-indigo-600 mb-2 md:mb-0"></i>
         <input
-          class="text-sm rounded dark:bg-slate-200 border-solid hover:border-4 focus:border-4 border-indigo-300 dark:border-indigo-500 w-80 px-8 py-2"
+          class="text-sm rounded dark:bg-slate-200 border-solid hover:border-4 focus:border-4 border-indigo-300 dark:border-indigo-500 w-4/5 py-2 px-2 sm:px-8"
           type="email" name="input_email" id="email" placeholder="email" value="{{ email_address }}" required />
 
       </div>
@@ -49,7 +49,7 @@
         {{ recaptcha }}
       </div>
       <button
-        class="rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 hover:bg-indigo-600text-l font-bold px-6 py-5 my-8"
+        class="rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 hover:bg-indigo-600text-l font-bold px-6 py-2 sm:py-5 my-8"
         formnovalidate id="btn" type="submit">Nechci dostávat články</button>
     </form>
   </section>
