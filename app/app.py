@@ -52,6 +52,10 @@ def submit_new_email():
         return redirect(url_for('get_main_page'))
 
     r = requests.put(worker_url + '/activation', json={ "email": email_address }, headers={ 'X-Auth-Token': os.environ.get('WORKER_AUTH_TOKEN')})
+    if r.status_code == 409:
+        flash('Tento email je již přihlášen.', 'error')
+        return redirect(url_for('get_main_page'))
+
     token = r.json().get('token', None)
 
     if not token:
@@ -78,17 +82,12 @@ def activate_email(token):
     
     if r.status_code == 409:
         flash('Tenhle email je již aktivován.', 'error')
-        return redirect(url_for('get_main_page'))
-
-    if r.status_code == 404:
+    elif r.status_code == 404:
         flash('Platnost linku vypršela.', 'error')
-        return redirect(url_for('get_main_page'))
-    
-    if r.status_code != 200:
+    elif r.status_code == 200:
+        flash('Email byl úspěšně aktivován.', 'success')
+    else:
         flash('Neočekávaná chyba, zkuste to prosím později.', 'error')
-        return redirect(url_for('get_main_page'))
-    
-    flash('Email byl úspěšně aktivován.', 'success')
     return redirect(url_for('get_main_page'))
 
 @app.route('/unsubscribe', methods=['POST'])
@@ -111,7 +110,14 @@ def unsubscribe_email():
 
     r = requests.delete(worker_url + '/email', json={ "email": email_address }, headers={ 'X-Auth-Token': os.environ.get('WORKER_AUTH_TOKEN')})
 
-    flash('Odběr článků je zrušen.', 'success')
+    if r.status_code == 404:
+        flash('Odběr článků nejde zrušit - emailová adresa není registrována.', 'error')
+        session['email_address'] = email_address
+    elif r.status_code == 204:
+        flash('Odběr článků je zrušen.', 'success')
+    else:
+        flash('Nastala neočekávaná chyba, zkuste to prosím později.', 'error')
+
     return redirect(url_for('get_unsubscribe_page'))
 
 @app.errorhandler(CSRFError)

@@ -34,9 +34,11 @@ addEventListener("fetch", (event) => {
       const index = listOfEmails.indexOf(val.email);
       if (index > -1) {
         listOfEmails.splice(index, 1);
+        await NOVINKY_ZE_SKOLKY.put('emails', JSON.stringify(listOfEmails));
+        return new Response(null,{ status: 204 });
+      } else {
+        return new Response(null, { status: 404 });
       }
-      await NOVINKY_ZE_SKOLKY.put('emails', JSON.stringify(listOfEmails));
-      return new Response(null,{ status: 204 });
     } else {
       return new Response(null,{ status: 405 });
     }
@@ -45,6 +47,10 @@ addEventListener("fetch", (event) => {
   async function handleActivationRequest(request) {
     if (request.method ==='PUT') {
       const val = await request.json();
+      const listOfEmails = await NOVINKY_ZE_SKOLKY.get('emails', { type: 'json' });
+      if (listOfEmails!==null && listOfEmails.indexOf(val.email) > -1) {
+        return new Response(null,{ status: 409 })
+      }
       const token = crypto.randomUUID();
       await NOVINKY_ZE_SKOLKY_AKTIVACE.put(token, val.email,{expirationTtl: 24*60*60})  
       return new Response(JSON.stringify({token:token}),{
@@ -57,7 +63,6 @@ addEventListener("fetch", (event) => {
       if ( email === null ) {
         return new Response(null, { status: 404 })
       } 
-
       let listOfEmails = await NOVINKY_ZE_SKOLKY.get('emails', { type: 'json' });
       if (listOfEmails===null) {
         listOfEmails = [];
