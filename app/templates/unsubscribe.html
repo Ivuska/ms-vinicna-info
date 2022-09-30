@@ -6,7 +6,7 @@
   {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
   {% for category, message in messages %}
-  <div class="flex flex-row-reverse rounded text-[16px]sm:text-sm text-left p-1 sm:p-3 flash-{{category}}" id="flashmessage">
+  <div class="flex flex-row-reverse rounded text-[16px] sm:text-sm text-left p-1 sm:p-3 flash-{{category}}" id="flashmessage">
     <div>
       <a class="cursor-pointer" href="#" onclick="closeFlashMessage()">
         <i class="fa-solid fa-xmark flash-close-{{ category }}"></i>
