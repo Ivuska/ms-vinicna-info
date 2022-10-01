@@ -22,12 +22,12 @@ def send_activation_email(email, token):
     html = f"""\
     <html>
     <body>
-        <p>Ahoj,
+        <p>Hezký den,
         <br>
         pro dokončení registrace k odběru článků z webu MŠ Viničná je třeba potvrdit emailovou adresu.
         </p>
         <p>
-        <a href="https://novinky-ze-skolky.ifischerova.cz/activation/{token}"> Klikněte pro aktivaci </a>
+        <a href="https://novinky-ze-skolky.ifischerova.cz/activation/{token}">Klikněte pro aktivaci </a>
         </p>
     </body>
     </html>
