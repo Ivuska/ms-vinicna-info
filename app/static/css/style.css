@@ -7,20 +7,53 @@
       font-size: 30px;
       line-height: 40px;
     }
+    h1 {
+      @apply text-indigo-600 text-center font-extrabold text-xl md:text-3xl my-4 sm:my-5 uppercase;
+    }
+    li {
+      @apply mb-3;
+    }
+    li p {
+      @apply pl-2 mb-1;
+    }
   }
 
-.flash-error {
-  @apply bg-red-300 text-red-900 ;
+@layer components {
+  .button {
+    @apply rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 focus:bg-indigo-600 text-sm md:text-lg font-bold;
+  }
+
+  .input {
+    @apply text-sm rounded dark:bg-slate-200 border-solid hover:border-4 focus:border-4 border-indigo-300 dark:border-indigo-500 w-full sm:w-4/5;
+  }
+
+  .flash-message {
+    @apply flex flex-row-reverse rounded text-[16px] sm:text-sm text-left p-1 sm:p-3;
+  }
+
+  .perex {
+    @apply text-center mb-4 md:mb-12 text-sm sm:text-lg dark:text-white;
+  }
 }
 
-.flash-close-error {
-  @apply text-red-900  hover:text-red-500 focus:text-red-500;
-}
+@layer utilities {
+  .is-responsive {
+    @apply  flex grow flex-col justify-center items-center;
+  }
 
-.flash-success {
-  @apply bg-green-300 text-green-900 ;
-}
-
-.flash-close-success {
-  @apply text-green-900  hover:text-green-500 focus:text-green-500;
+  .flash-error {
+    @apply bg-red-300 text-red-900 ;
+  }
+  
+  .flash-close-error {
+    @apply text-red-900  hover:text-red-500 focus:text-red-500;
+  }
+  
+  .flash-success {
+    @apply bg-green-300 text-green-900 ;
+  }
+  
+  .flash-close-success {
+    @apply text-green-900  hover:text-green-500 focus:text-green-500;
+  }
 }

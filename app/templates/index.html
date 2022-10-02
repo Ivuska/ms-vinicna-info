@@ -6,7 +6,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
-    <div class="flex flex-row-reverse rounded text-[16px] sm:text-sm text-left p-1 sm:p-3 flash-{{category}}" id="flashmessage">
+    <div class="flash-message flash-{{category}}" id="flashmessage">
       <div>
         <a class="cursor-pointer" href="#" onclick="closeFlashMessage()">
           <i class="fa-solid fa-xmark flash-close-{{ category }}"></i>
@@ -22,20 +22,19 @@
     {% endwith %}
   </section>
 
-  <section class="flex flex-col justify-center items-center">
-    <h1 class="text-indigo-600 text-center font-extrabold text-xl sm:text-3xl my-4 sm:my-5 uppercase">{% block title %} Info ze školky do
-      mailu {% endblock %}</h1>
+  <section class="is-responsive">
+    <h1>{% block title %} Info ze školky do mailu {% endblock %}</h1>
 
-    <p class="text-center mb-4 md:mb-12 text-sm sm:text-lg dark:text-white">Pro všechny, které nebaví pořád kontrolovat web školky.</p>
+    <p class="perex">Pro všechny, které nebaví pořád kontrolovat web školky.</p>
   </section>
 
   <section>
-    <form class="flex grow flex-col justify-center items-center text-center m-0" method="post" id="form" action="/">
+    <form class="is-responsive text-center m-0" method="post" id="form" action="/">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-      <div class="flex grow flex-col md:flex-row justify-items-center items-center md:space-x-3">
-        <i class="far fa-envelope text-4xl text-center  text-indigo-600 mb-2 md:mb-0"></i>
+      <div class="is-responsive md:flex-row md:space-x-3">
+        <i class="far fa-envelope text-4xl text-center text-indigo-600 mb-2 md:mb-0"></i>
         <input
-          class="text-sm rounded dark:bg-slate-200 border-solid hover:border-4 focus:border-4 border-indigo-300 dark:border-indigo-500 w-full sm:w-4/5 py-1 sm:py-2 px-2 sm:px-8"
+          class="input py-1 sm:py-2 px-2 sm:px-8"
           type="email" name="input_email" id="email" placeholder="email" value="{{ email_address }}" required />
 
       </div>
@@ -43,7 +42,7 @@
         {{ recaptcha }}
       </div>
       <button
-        class="rounded shadow-md text-center text-indigo-600 hover:text-indigo-200 active:text-indigo-200 uppercase bg-indigo-200 hover:bg-indigo-600 active:bg-indigo-600 focus:bg-indigo-600 text-sm sm:text-lg font-bold px-4 py-3 sm:px-6 sm:py-5 my-6 md:my-8"
+        class="button px-4 py-3 sm:px-6 sm:py-5 my-6 md:my-8"
         formnovalidate id="btn" type="submit">Chci články</button>
       <p class="flex md:inline flex-grow flex-col leading-2 text-[16px] md:text-sm dark:text-white">
         Odesláním potvrzuji, že jsem si přečetl/a <a
