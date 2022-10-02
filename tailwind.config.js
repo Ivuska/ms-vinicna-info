@@ -16,6 +16,12 @@ module.exports = {
     },
     extend: {},
   },
+  safelist: [
+    'flash-success',
+    'flash-close-success',
+    'flash-error',
+    'flash-close-error',
+  ],
   darkMode: 'class',
   plugins: [],  
 }
