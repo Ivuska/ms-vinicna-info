@@ -1,6 +1,8 @@
 {
   "scripts":{
-    "dev:tailwind":"tailwindcss -i app/static/css/style.css -o app/static/css/output.css --watch"
+    "dev:tailwind":"tailwindcss -i app/static/css/style.css -o app/static/css/output.css --watch",
+    "cypress:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "devDependencies": {
     "cypress": "^10.9.0",
