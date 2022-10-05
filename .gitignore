@@ -5,3 +5,7 @@ __pycache__
 .env
 
 node_modules
+
+cypress/videos
+
+cypress/screenshots
