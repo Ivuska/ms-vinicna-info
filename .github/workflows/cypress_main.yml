@@ -44,3 +44,7 @@ jobs:
           WORKER_URL: 'http://127.0.0.1:8787'
           FLASK_APP: app.app
           FLASK_ENV: development
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SERVER: ${{ secrets.SERVER }}
+          PORT: ${{ secrets.PORT }}
