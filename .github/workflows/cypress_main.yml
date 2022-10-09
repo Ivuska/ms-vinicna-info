@@ -14,11 +14,11 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
 
-      - name: Download the build folders
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build
+      #- name: Download the build folders
+       # uses: actions/download-artifact@v2
+        #with:
+         # name: build
+          #path: build
 
       - name: Save build folder
         uses: actions/upload-artifact@v2
