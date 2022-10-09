@@ -20,7 +20,8 @@ jobs:
           runTests: false
 
       - name: Install Flask
-        run: pip install -r requirements.txt
+        run: |
+          pip3 install -r requirements.txt
 
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
