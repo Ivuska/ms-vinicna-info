@@ -1,42 +1,46 @@
-name: Cypress Tests with Dependency and Artifact Caching
+name: Cypress Tests
 
 on:
   push:
   workflow_dispatch:
 
 jobs:
-  install:
+  test: 
+    name: Run Tests
     runs-on: ubuntu-latest
     container: cypress/browsers:node18.6.0-chrome105-ff104
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-
-      #- name: Download the build folders
-       # uses: actions/download-artifact@v2
-        #with:
-         # name: build
-          #path: build
-
-      #- name: Save build folder
-       # uses: actions/upload-artifact@v2
-        #with:
-          #name: build
-          #if-no-files-found: error
-          #path: build
 
       - name: Cypress install
         uses: cypress-io/github-action@v4.2.0
         with:
           # Disable running of tests within install job
           runTests: false
-          build: yarn build
+
+      - name: Install Flask
+        run: pip install -r requirements.txt
 
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0
         with:
-          build: npm run build
-          start: npm start
+          start: |
+            # This starts wrangler that runs in the background.
+            npx wrangler dev ./cf_worker/index.js --local --var AUTH_TOKEN:${WORKER_AUTH_TOKEN} & 
+            sleep 1
+            flask run &
+            sleep 1
           browser: chrome
+          record: true
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WORKER_AUTH_TOKEN: '123456'
+          RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
+          RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+          WORKER_URL: 'http://127.0.0.1:8787'
+          FLASK_APP: app.app
+          FLASK_ENV: development

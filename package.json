@@ -1,12 +1,15 @@
 {
-  "scripts":{
-    "dev:tailwind":"tailwindcss -i app/static/css/style.css -o app/static/css/output.css --watch",
+  "scripts": {
+    "dev:tailwind": "tailwindcss -i app/static/css/style.css -o app/static/css/output.css --watch",
     "cypress:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "serve": "http-server"
   },
   "devDependencies": {
     "cypress": "^10.9.0",
+    "http-server": "^14.1.1",
     "postcss-import": "^15.0.0",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "wrangler": "^2.1.10"
   }
 }
