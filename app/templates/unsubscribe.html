@@ -7,9 +7,9 @@
   {% if messages %}
   {% for category, message in messages %}
   <div class="flash-message flash-{{category}}"
-    id="flashmessage">
+    id="flashmessage" data-test="flash_message">
     <div>
-      <a class="cursor-pointer" href="#" onclick="closeFlashMessage()">
+      <a class="cursor-pointer" href="#" onclick="closeFlashMessage()" data-test="close_flash_message">
         <i class="fa-solid fa-xmark flash-close-{{ category }}"></i>
         <span class="sr-only">Close error flash message</span>
       </a>
@@ -30,17 +30,17 @@
 </section>
 
 <section>
-  <form class="is-responsive text-center m-0" method="post" id="form" action="/unsubscribe">
+  <form class="is-responsive text-center m-0" method="post" id="form" action="/unsubscribe" data-test="unsubscribe_form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <div class="is-responsive md:flex-row md:space-x-3">
       <i class="far fa-envelope text-3xl sm:text-4xl text-center text-indigo-600 mb-2 md:mb-0"></i>
       <input class="input py-1 sm:py-2 px-2 sm:px-8" type="email" name="input_email" id="email" placeholder="email"
-        value="{{ email_address }}" required />
+        value="{{ email_address }}" data-test="input_email" required />
     </div>
-    <div class="mt-6 md:mt-8">
+    <div class="mt-6 md:mt-8" data-test="recaptcha">
       {{ recaptcha }}
     </div>
-    <button class="button p-2 md:p-5 my-8" formnovalidate id="submitbtn" type="submit">Nechci dostávat články</button>
+    <button class="button p-2 md:p-5 my-8" formnovalidate id="submitbtn" type="submit" data-test="submit_unsubscribe_btn">Nechci dostávat články</button>
   </form>
 </section>
 {% endblock %}
