@@ -6,9 +6,9 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
-    <div class="flash-message flash-{{category}}" id="flashmessage">
+    <div class="flash-message flash-{{category}}" id="flashmessage" data-test="flash_message">
       <div>
-        <a class="cursor-pointer" href="#" onclick="closeFlashMessage()">
+        <a class="cursor-pointer" href="#" onclick="closeFlashMessage()" data-test="close_flash_message">
           <i class="fa-solid fa-xmark flash-close-{{ category }}" id="closeflashmessage"></i>
           <span class="sr-only">Close error flash message</span>
         </a>
@@ -29,24 +29,24 @@
   </section>
 
   <section>
-    <form class="is-responsive text-center m-0" method="post" id="form" action="/">
+    <form class="is-responsive text-center m-0" method="post" id="form" action="/" data-test="form">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <div class="is-responsive md:flex-row md:space-x-3">
         <i class="far fa-envelope text-4xl text-center text-indigo-600 mb-2 md:mb-0"></i>
         <input
           class="input py-1 sm:py-2 px-2 sm:px-8"
-          type="email" name="input_email" id="email" placeholder="email" value="{{ email_address }}" required />
+          type="email" name="input_email" id="email" placeholder="email" value="{{ email_address }}" data-test="input_email" required />
 
       </div>
-      <div class="mt-6 md:mt-8">
+      <div class="mt-6 md:mt-8" data-test="recaptcha">
         {{ recaptcha }}
       </div>
       <button
         class="button px-4 py-3 sm:px-6 sm:py-5 my-6 md:my-8"
-        formnovalidate id="submitbtn" type="submit">Chci články</button>
+        formnovalidate id="submitbtn" type="submit" data-test="submit_btn">Chci články</button>
       <p class="flex md:inline flex-grow flex-col leading-2 text-[16px] md:text-sm dark:text-white">
         Odesláním potvrzuji, že jsem si přečetl/a <a
-          class="text-indigo-400  hover:text-indigo-600  focus:text-indigo-600" href="{{ url_for('show_gdpr_page') }}"><span>Informovaný souhlas</span></a>&nbsp;a přijímám jej.
+          class="text-indigo-400  hover:text-indigo-600  focus:text-indigo-600" href="{{ url_for('show_gdpr_page') }}" data-test="gdpr_link"><span>Informovaný souhlas</span></a>&nbsp;a přijímám jej.
       </p>
     </form>
   </section>
