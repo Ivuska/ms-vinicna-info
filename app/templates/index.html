@@ -29,7 +29,7 @@
   </section>
 
   <section>
-    <form class="is-responsive text-center m-0" method="post" id="form" action="/" data-test="subscribe_form">
+    <form class="is-responsive text-center m-0" method="post" id="form" action="/" data-testid="subscribe_form">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       <div class="is-responsive md:flex-row md:space-x-3">
         <i class="far fa-envelope text-4xl text-center text-indigo-600 mb-2 md:mb-0"></i>
@@ -46,7 +46,7 @@
         formnovalidate id="submitbtn" type="submit" data-testid="submit_btn">Chci články</button>
       <p class="flex md:inline flex-grow flex-col leading-2 text-[16px] md:text-sm dark:text-white">
         Odesláním potvrzuji, že jsem si přečetl/a <a
-          class="text-indigo-400  hover:text-indigo-600  focus:text-indigo-600" href="{{ url_for('show_gdpr_page') }}" data-test="gdpr_link"><span>Informovaný souhlas</span></a>&nbsp;a přijímám jej.
+          class="text-indigo-400  hover:text-indigo-600  focus:text-indigo-600" href="{{ url_for('show_gdpr_page') }}" data-testid="gdpr_link"><span>Informovaný souhlas</span></a>&nbsp;a přijímám jej.
       </p>
     </form>
   </section>
