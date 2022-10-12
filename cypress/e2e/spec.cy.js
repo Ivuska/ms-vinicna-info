@@ -20,6 +20,14 @@ describe('Sign up for articles.', () => {
     cy.visit('http://127.0.0.1:5000/')
   })
   it('Sign up without proper email address is not possible.', () => {
+    cy.get('[data-testid=submit_btn]').click()
+
+    cy.get('[data-testid=flash_message]').contains('Vyplňte prosím emailovou adresu.')
+  
+    cy.get('[data-testid=close_flash_message]').click()
+
+    cy.get('[data-testid=flash_message]').should('not.be.visible')
+
     cy.get('[data-testid=input_email]').type('imatsion')
 
     cy.get('[data-testid=submit_btn]').click()
