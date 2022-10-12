@@ -14,9 +14,10 @@ app = Flask(__name__)
 app.secret_key = 'rbYPVS3hLzIToOJ'
 app.templates_auto_reload = True
 
-app.config['RECAPTCHA_SITE_KEY'] = os.environ.get('RECAPTCHA_SITE_KEY') 
-app.config['RECAPTCHA_SECRET_KEY'] = os.environ.get('RECAPTCHA_SECRET_KEY') 
-recaptcha = ReCaptcha(app) # Create a ReCaptcha object by passing in 'app' as parameter
+if app.env == 'production':
+    app.config['RECAPTCHA_SITE_KEY'] = os.environ.get('RECAPTCHA_SITE_KEY') 
+    app.config['RECAPTCHA_SECRET_KEY'] = os.environ.get('RECAPTCHA_SECRET_KEY') 
+    recaptcha = ReCaptcha(app) # Create a ReCaptcha object by passing in 'app' as parameter
 
 csrf = CSRFProtect(app)
 csrf.init_app(app)
@@ -36,10 +37,6 @@ def get_unsubscribe_page():
 @app.route('/', methods=['POST'])
 def submit_new_email():
     email_address = request.form['input_email'] 
-    if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
-        flash('Potvrďte prosím, že nejste robot.', 'error')
-        session['email_address'] = email_address
-        return redirect(url_for('get_main_page'))
 
     if email_address == '':
         flash('Vyplňte prosím emailovou adresu.', 'error')
@@ -50,6 +47,12 @@ def submit_new_email():
         flash('Emailová adresa nemá správný formát.', 'error')
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
+
+    if app.env == 'production':
+        if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
+            flash('Potvrďte prosím, že nejste robot.', 'error')
+            session['email_address'] = email_address
+            return redirect(url_for('get_main_page'))
 
     r = requests.put(worker_url + '/activation', json={ "email": email_address }, headers={ 'X-Auth-Token': os.environ.get('WORKER_AUTH_TOKEN')})
     if r.status_code == 409:
