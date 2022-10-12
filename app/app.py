@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.secret_key = 'rbYPVS3hLzIToOJ'
 app.templates_auto_reload = True
 
-if app.env == 'production':
+if app.debug == False:
     app.config['RECAPTCHA_SITE_KEY'] = os.environ.get('RECAPTCHA_SITE_KEY') 
     app.config['RECAPTCHA_SECRET_KEY'] = os.environ.get('RECAPTCHA_SECRET_KEY') 
     recaptcha = ReCaptcha(app) # Create a ReCaptcha object by passing in 'app' as parameter
@@ -48,7 +48,7 @@ def submit_new_email():
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
 
-    if app.env == 'production':
+    if app.debug == False:
         if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
             flash('Potvrďte prosím, že nejste robot.', 'error')
             session['email_address'] = email_address
