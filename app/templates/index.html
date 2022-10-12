@@ -38,9 +38,11 @@
           type="email" name="input_email" id="email" placeholder="email" value="{{ email_address }}" data-testid="input_email" required />
 
       </div>
-      <div class="mt-6 md:mt-8" data-test="recaptcha">
-        {{ recaptcha }}
-      </div>
+      {% if env == 'production' %}
+        <div class="mt-6 md:mt-8" data-test="recaptcha">
+          {{ recaptcha }}
+        </div>
+      {% endif %}
       <button
         class="button px-4 py-3 sm:px-6 sm:py-5 my-6 md:my-8"
         formnovalidate id="submitbtn" type="submit" data-testid="submit_btn">Chci články</button>
