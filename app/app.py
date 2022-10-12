@@ -26,8 +26,9 @@ worker_url = os.environ.get('WORKER_URL')
 
 @app.route('/')
 def get_main_page():
-    email_address = session.pop('email_address', '')    
-    return render_template('index.html', email_address=email_address)
+    email_address = session.pop('email_address', '')
+    # I need to specify the debug mode for the template "to know" about this mode.   
+    return render_template('index.html', email_address=email_address, debug=app.debug)
 
 @app.route('/unsubscribe', methods=['GET'])
 def get_unsubscribe_page():
