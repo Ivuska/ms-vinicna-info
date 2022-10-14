@@ -33,7 +33,7 @@ def get_main_page():
 @app.route('/unsubscribe', methods=['GET'])
 def get_unsubscribe_page():
     email_address = session.pop('email_address', '')
-    return render_template('unsubscribe.html', email_address=email_address)
+    return render_template('unsubscribe.html', email_address=email_address, debug=app.debug)
 
 @app.route('/', methods=['POST'])
 def submit_new_email():
@@ -96,12 +96,7 @@ def activate_email(token):
 
 @app.route('/unsubscribe', methods=['POST'])
 def unsubscribe_email():
-    email_address = request.form['input_email'] 
-    if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
-        flash('Potvrďte prosím, že nejste robot.', 'error')
-        session['email_address'] = email_address
-        return redirect(url_for('get_unsubscribe_page'))
-
+    email_address = request.form['input_email']
     if email_address == '':
         flash('Vyplňte prosím emailovou adresu.', 'error')
         session['email_address'] = email_address
@@ -111,6 +106,12 @@ def unsubscribe_email():
         flash('Emailová adresa nemá správný formát.', 'error')
         session['email_address'] = email_address
         return redirect(url_for('get_unsubscribe_page'))
+
+    if app.debug == False: 
+        if not recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
+            flash('Potvrďte prosím, že nejste robot.', 'error')
+            session['email_address'] = email_address
+            return redirect(url_for('get_unsubscribe_page'))
 
     r = requests.delete(worker_url + '/email', json={ "email": email_address }, headers={ 'X-Auth-Token': os.environ.get('WORKER_AUTH_TOKEN')})
 
