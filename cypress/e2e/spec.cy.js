@@ -27,12 +27,22 @@ describe('Go to the app and check content.', () => {
     cy.url().should('eq', 'http://127.0.0.1:5000/')
   })
 
-  it('Get from main page to thank you landing page.', () => {
+  it('Get to thank you landing page.', () => {
     cy.visit('http://127.0.0.1:5000/thank_you')
 
     cy.get('h1').contains('Úspěšně odesláno')
 
     cy.get('p').contains('Potvrďte prosím emailovou adresu klikem na link v zaslaném emailu.')
+  })
+
+  it('Get to unsubscribe page and check it.', () => {
+    cy.visit('http://127.0.0.1:5000/unsubscribe')
+
+    cy.get('h1').contains('Nechci dostávat info ze školky')
+
+    cy.get('p').contains('Vyplňte prosím email, který chcete odhlásit z odběru článků.')
+
+    cy.get('[data-testid=submit_unsubscribe_btn]').contains('Nechci dostávat články')
   })
 })
 
