@@ -69,5 +69,9 @@ describe('Sign up for articles.', () => {
     cy.get('[data-testid=close_flash_message]').click()
 
     cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+    cy.get('[data-testid=input_email]').clear()
+
+    cy.get('[data-testid=input_email]').should('have.value', '')
   })
 })
