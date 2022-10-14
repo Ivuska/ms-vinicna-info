@@ -52,6 +52,7 @@ describe('Sign up for articles.', () => {
     cy.visit('http://127.0.0.1:5000/')
   })
   it('Sign up without proper email address is not possible.', () => {
+    cy.log('Try to submit empty email field.')
     cy.get('[data-testid=submit_btn]').click()
 
     cy.get('[data-testid=flash_message]').contains('Vyplňte prosím emailovou adresu.')
@@ -60,6 +61,7 @@ describe('Sign up for articles.', () => {
 
     cy.get('[data-testid=flash_message]').should('not.be.visible')
 
+    cy.log('Try to submit email address in incorrect format.')
     cy.get('[data-testid=input_email]').type('imatsion')
 
     cy.get('[data-testid=submit_btn]').click()
@@ -70,6 +72,7 @@ describe('Sign up for articles.', () => {
 
     cy.get('[data-testid=flash_message]').should('not.be.visible')
 
+    cy.log('Clear the email input.')
     cy.get('[data-testid=input_email]').clear()
 
     cy.get('[data-testid=input_email]').should('have.value', '')
