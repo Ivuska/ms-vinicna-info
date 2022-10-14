@@ -78,3 +78,34 @@ describe('Sign up for articles.', () => {
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
 })
+
+describe('Unsubscribe from getting articles.', () => {
+  it('Unsubscribe without proper email address is not possible.', () => {
+    cy.log('Try to submit empty email field.')
+    cy.visit('http://127.0.0.1:5000/unsubscribe')
+    
+    cy.get('[data-testid=submit_unsubscribe_btn]').click()
+
+    cy.get('[data-testid=flash_message]').contains('Vyplňte prosím emailovou adresu.')
+  
+    cy.get('[data-testid=close_flash_message]').click()
+
+    cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+    cy.log('Try to submit email address in incorrect format.')
+    cy.get('[data-testid=input_email]').type('imatsion')
+
+    cy.get('[data-testid=submit_unsubscribe_btn]').click()
+
+    cy.get('[data-testid=flash_message]').contains('Emailová adresa nemá správný formát.')
+  
+    cy.get('[data-testid=close_flash_message]').click()
+
+    cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+    cy.log('Clear the email input.')
+    cy.get('[data-testid=input_email]').clear()
+
+    cy.get('[data-testid=input_email]').should('have.value', '')
+  })
+})
