@@ -26,6 +26,14 @@ describe('Go to the app and check content.', () => {
 
     cy.url().should('eq', 'http://127.0.0.1:5000/')
   })
+
+  it('Get from main page to thank you landing page.', () => {
+    cy.visit('http://127.0.0.1:5000/thank_you')
+
+    cy.get('h1').contains('Úspěšně odesláno')
+
+    cy.get('p').contains('Potvrďte prosím emailovou adresu klikem na link v zaslaném emailu.')
+  })
 })
 
 describe('Sign up for articles.', () => {
