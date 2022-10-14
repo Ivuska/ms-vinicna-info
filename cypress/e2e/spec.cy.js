@@ -1,7 +1,9 @@
-describe('Got to the web app and check the main page is loaded correctly.', () => {
-  it('Visits novinky-ze-skolky and check the content.', () => {
+describe('Go to the app and check content.', () => {
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('session')
     cy.visit('http://127.0.0.1:5000/')
-
+  })
+  it('Get main page and check the content.', () => {
     cy.get('[data-testid=set_mode_icon]')
 
     cy.get('[data-testid=subscribe_form]')
@@ -11,6 +13,18 @@ describe('Got to the web app and check the main page is loaded correctly.', () =
     cy.get('[data-testid=submit_btn]').contains('Chci články')
 
     cy.get('[data-testid=gdpr_link]').contains('Informovaný souhlas')
+  })
+
+  it('Get from main page to GDPR.', () => {
+    cy.get('[data-testid=gdpr_link]').click()
+
+    cy.url().should('include', '/gdpr')
+
+    cy.get('h1').contains('Informovaný souhlas')
+
+    cy.get('.cursor-pointer > .fa-solid').click()
+
+    cy.url().should('eq', 'http://127.0.0.1:5000/')
   })
 })
 
