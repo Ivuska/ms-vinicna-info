@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "mailslurp": "^0.0.1-security"
+    "mailslurp": "^0.0.1-security",
+    "mailslurp-client": "^15.14.1"
   }
 }
