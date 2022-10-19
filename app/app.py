@@ -67,7 +67,7 @@ def submit_new_email():
         session['email_address'] = email_address
         return redirect(url_for('get_main_page'))
 
-    send_activation_email(email_address, token)
+    send_activation_email(email_address, token, debug=app.debug)
 
     session.pop('email_address', None)
     return redirect(url_for('show_thank_you_landing_page'))

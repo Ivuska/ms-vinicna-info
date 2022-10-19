@@ -77,7 +77,40 @@ describe('Sign up for articles.', () => {
 
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
-})
+  it('Can generate a new email address and sign up for articles.', () => {
+    let inboxId;
+    let emailAddress;
+      // see commands.js custom commands
+      cy.createInbox().then(inbox => {
+      // verify a new inbox was created
+      assert.isDefined(inbox)
+
+      // save the inboxId for later checking the emails
+      inboxId = inbox.id
+      emailAddress = inbox.emailAddress;
+
+      // sign up with inbox email address and the password
+      cy.get('[data-testid=input_email]').type(emailAddress);
+
+      cy.get('[data-testid=submit_btn]').click();
+
+      cy.url().should('eq', 'http://127.0.0.1:5000/thank_you')
+
+      // wait for an email in the inbox
+      cy.waitForLatestEmail(inboxId).then(email => {
+        // verify we received an email
+        assert.isDefined(email);
+
+        // verify that email contains the code
+        assert.strictEqual(/Klikněte pro aktivaci/.test(email.body), true);
+        console.log(email.body)
+        cy.writeFile('./email.html', email.body, 'utf-8')
+        cy.visit('./email.html')
+        cy.wait(10000)
+      });
+    });
+  });
+});
 
 describe('Unsubscribe from getting articles.', () => {
   it('Unsubscribe without proper email address is not possible.', () => {

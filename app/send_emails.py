@@ -17,7 +17,11 @@ port = int(os.environ.get('PORT'))
 
 worker_url = os.environ.get('WORKER_URL')
 
-def send_activation_email(email, token):
+def send_activation_email(email, token, debug):
+    if debug:
+        base_url='http://127.0.0.1:5000'
+    else:
+        base_url = "https://novinky-ze-skolky.ifischerova.cz"
     # Create the HTML version of your message
     html = f"""\
     <html>
@@ -27,7 +31,7 @@ def send_activation_email(email, token):
         pro dokončení registrace k odběru článků z webu MŠ Viničná je třeba potvrdit emailovou adresu.
         </p>
         <p>
-        <a href="https://novinky-ze-skolky.ifischerova.cz/activation/{token}">Klikněte pro aktivaci </a>
+        <a href="{base_url}/activation/{token}">Klikněte pro aktivaci</a>
         </p>
     </body>
     </html>

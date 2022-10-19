@@ -19,5 +19,6 @@ module.exports = defineConfig({
     },
     screenshotOnRunFailure:true,
     trashAssetsBeforeRuns:false,
+    experimentalSessionAndOrigin:true,
   }
 });
