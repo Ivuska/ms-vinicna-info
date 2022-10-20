@@ -77,6 +77,9 @@ describe('Sign up for articles.', () => {
 
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
+  it('I cannot sign up for articles with the same email address.', () => {})
+  it('I cannot activate the email address that is already in db.', () => {})
+  it('I cannot sign up for articles after the link is deactivated.', () => {})
   it('Can generate a new email address and sign up for articles.', () => {
     let inboxId;
     let emailAddress;
@@ -106,7 +109,6 @@ describe('Sign up for articles.', () => {
         console.log(email.body)
         cy.writeFile('./email.html', email.body, 'utf-8')
         cy.visit('./email.html')
-        cy.wait(10000)
       });
     });
   });
@@ -141,4 +143,6 @@ describe('Unsubscribe from getting articles.', () => {
 
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
+  it('I cannot unsubscribe with email address that is not in signed up.', () => {})
+  it('I can unsubscribe from getting articles.', () => {})
 })
