@@ -6,6 +6,7 @@
     "serve": "http-server"
   },
   "devDependencies": {
+    "@dvratil/cypress-mailtester": "^0.1.1",
     "cypress": "^10.10.0",
     "http-server": "^14.1.1",
     "postcss-import": "^15.0.0",
@@ -13,8 +14,6 @@
     "wrangler": "^2.1.10"
   },
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "mailslurp": "^0.0.1-security",
-    "mailslurp-client": "^15.14.1"
+    "dotenv": "^16.0.3"
   }
 }
