@@ -8,7 +8,7 @@ jobs:
   test: 
     name: Run Tests
     runs-on: ubuntu-latest
-    container: cypress/browsers:node18.6.0-chrome105-ff104
+    container: cypress/browsers:node16.17.1-chrome106-ff105-edge
     steps:
       - name: Checkout
         uses: actions/checkout@v2
