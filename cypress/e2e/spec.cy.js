@@ -84,35 +84,36 @@ describe('Sign up for articles.', () => {
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
   it.skip('I cannot sign up for articles after the link is deactivated.', () => {})
-  it.skip('Can generate a new email address and sign up for articles.', () => {
-    let inboxId;
-    let emailAddress;
-      // see commands.js custom commands
-      cy.createInbox().then(inbox => {
-      // verify a new inbox was created
-      assert.isDefined(inbox)
-
-      // save the inboxId for later checking the emails
-      inboxId = inbox.id
-      emailAddress = inbox.emailAddress;
+  it('Can generate a new email address and sign up for articles.', () => {
+    cy.mailtester().then(async (mailtester) => {
+      const emailAddress = await mailtester.createAddress()
+      assert.isDefined(emailAddress)  
 
       // sign up with inbox email address and the password
       cy.get('[data-testid=input_email]').type(emailAddress);
-
       cy.get('[data-testid=submit_btn]').click();
-
-      cy.url().should('eq', 'http://127.0.0.1:5000/thank_you')
-
-      // wait for an email in the inbox
-      cy.waitForLatestEmail(inboxId).then(email => {
-        // verify we received an email
+      cy.url().should('eq', 'http://127.0.0.1:5000/thank_you').then(async () => {
+        const email = await mailtester.waitForEmail(emailAddress)
         assert.isDefined(email);
 
         // verify that email contains the code
-        assert.strictEqual(/Klikněte pro aktivaci/.test(email.body), true);
-        console.log(email.body)
-        cy.writeFile('./email.html', email.body, 'utf-8')
-        cy.visit('./email.html')
+        assert.strictEqual(/Klikněte pro aktivaci/.test(email.body), true)
+        
+
+        //I cannot switch between two domains and then click the link so I explicitly parse the link from the href attr of anchor and then 
+        // visit this link
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(email.body, 'text/html')
+        const link = doc.querySelector('a').getAttribute('href')
+        assert.isDefined(link)
+
+        cy.visit(link)
+
+        cy.get('[data-testid=flash_message]').contains('Email byl úspěšně aktivován.')
+  
+        cy.get('[data-testid=close_flash_message]').click()
+    
+        cy.get('[data-testid=flash_message]').should('not.be.visible')
       });
     });
   });
