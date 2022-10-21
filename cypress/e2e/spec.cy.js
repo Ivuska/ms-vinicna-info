@@ -80,7 +80,7 @@ describe('Sign up for articles.', () => {
   it('I cannot sign up for articles with the same email address.', () => {})
   it('I cannot activate the email address that is already in db.', () => {})
   it('I cannot sign up for articles after the link is deactivated.', () => {})
-  it('Can generate a new email address and sign up for articles.', () => {
+  it.skip('Can generate a new email address and sign up for articles.', () => {
     let inboxId;
     let emailAddress;
       // see commands.js custom commands
