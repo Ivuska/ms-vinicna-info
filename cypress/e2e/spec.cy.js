@@ -15,7 +15,7 @@ describe('Go to the app and check content.', () => {
     cy.get('[data-testid=gdpr_link]').contains('Informovaný souhlas')
   })
 
-  it.only('Check all links on the page', () => {
+  it('Check all links on the page', () => {
     cy.get('a').each(page => {
       cy.request(page.prop('href'))
     })
