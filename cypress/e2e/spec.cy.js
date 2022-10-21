@@ -83,31 +83,6 @@ describe('Sign up for articles.', () => {
 
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
-  it.skip('I cannot sign up for articles with the same email address.', () => {
-    cy.log('Submit valid email address.')
-    cy.get('[data-testid=input_email]').type('testemail@email.cz')
-
-    cy.get('[data-testid=submit_btn]').click()
-
-    cy.log('Check the email address is successfully sent.')
-    cy.url().should('eq', 'http://127.0.0.1:5000/thank_you')
-
-    cy.log('Return to main page.')
-    cy.visit('http://127.0.0.1:5000/')
-
-    cy.log('Try to submit the same email address.')
-    cy.get('[data-testid=input_email]').type('testemail@email.cz')
-
-    cy.get('[data-testid=submit_btn]').click()
-
-    cy.log('The email address should be rejected with proper flash message.')
-    cy.get('[data-testid=flash_message]').contains('Tento email je již přihlášen.')
-  
-    cy.get('[data-testid=close_flash_message]').click()
-
-    cy.get('[data-testid=flash_message]').should('not.be.visible')
-  })
-  it.skip('I cannot activate the email address that is already in db.', () => {})
   it.skip('I cannot sign up for articles after the link is deactivated.', () => {})
   it.skip('Can generate a new email address and sign up for articles.', () => {
     let inboxId;
@@ -141,6 +116,17 @@ describe('Sign up for articles.', () => {
       });
     });
   });
+  it.skip('I cannot sign up for articles with the same email address.', () => {
+    cy.log('Submit valid email address.')
+    cy.get('[data-testid=input_email]').type('testemail@email.cz')
+
+    cy.get('[data-testid=submit_btn]').click()
+
+    cy.log('Check the email address is successfully sent.')
+    cy.url().should('eq', 'http://127.0.0.1:5000/thank_you')
+    //need to set up next steps
+
+  })
 });
 
 describe('Unsubscribe from getting articles.', () => {
