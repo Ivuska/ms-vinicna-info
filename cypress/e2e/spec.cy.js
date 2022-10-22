@@ -1,7 +1,7 @@
 describe('Go to the app and check content.', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('session')
-    cy.visit('http://127.0.0.1:5000/')
+    cy.visit('/')
   })
   it('Get main page and check the content.', () => {
     cy.get('[data-testid=set_mode_icon]')
@@ -34,7 +34,7 @@ describe('Go to the app and check content.', () => {
   })
 
   it('Get to thank you landing page.', () => {
-    cy.visit('http://127.0.0.1:5000/thank_you')
+    cy.visit('thank_you')
 
     cy.get('h1').contains('Úspěšně odesláno')
 
@@ -42,7 +42,7 @@ describe('Go to the app and check content.', () => {
   })
 
   it('Get to unsubscribe page and check it.', () => {
-    cy.visit('http://127.0.0.1:5000/unsubscribe')
+    cy.visit('unsubscribe')
 
     cy.get('h1').contains('Nechci dostávat info ze školky')
 
@@ -55,7 +55,7 @@ describe('Go to the app and check content.', () => {
 describe('Sign up for articles.', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('session')
-    cy.visit('http://127.0.0.1:5000/')
+    cy.visit('/')
   })
   it('Sign up without proper email address is not possible.', () => {
     cy.log('Try to submit empty email field.')
@@ -165,7 +165,7 @@ describe('Sign up for articles.', () => {
         cy.get('[data-testid=flash_message]').should('not.be.visible')
 
         cy.log('Go to main page and try to sign up with same email address.')
-        cy.visit('http://127.0.0.1:5000/')
+        cy.visit('/')
         cy.get('[data-testid=input_email]').type(emailAddress);
         cy.get('[data-testid=submit_btn]').click();
 
@@ -181,7 +181,7 @@ describe('Sign up for articles.', () => {
 describe('Unsubscribe from getting articles.', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('session')
-    cy.visit('http://127.0.0.1:5000/unsubscribe')
+    cy.visit('unsubscribe')
   })
   it('Unsubscribe without proper email address is not possible.', () => {
     cy.log('Try to submit empty email field.')
@@ -222,7 +222,7 @@ describe('Unsubscribe from getting articles.', () => {
       assert.isDefined(emailAddress)  
 
       cy.log('Sign up for articles with the email address.')
-      cy.visit('http://127.0.0.1:5000/')
+      cy.visit('/')
       cy.get('[data-testid=input_email]').type(emailAddress);
       cy.get('[data-testid=submit_btn]').click();
 
@@ -248,7 +248,7 @@ describe('Unsubscribe from getting articles.', () => {
         cy.get('[data-testid=close_flash_message]').click()
         cy.get('[data-testid=flash_message]').should('not.be.visible')
 
-        cy.visit('http://127.0.0.1:5000/unsubscribe')
+        cy.visit('unsubscribe')
         cy.log('Try to submit email that is in db.')
         cy.get('[data-testid=input_email]').type(emailAddress);
         cy.get('[data-testid=submit_unsubscribe_btn]').click()
