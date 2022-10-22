@@ -144,15 +144,45 @@ describe('Sign up for articles.', () => {
       });
     });
   });
-  it.skip('I cannot sign up for articles with the same email address.', () => {
-    cy.log('Submit valid email address.')
-    cy.get('[data-testid=input_email]').type('testemail@email.cz')
+  it('I cannot sign up for articles with the same email address.', () => {
+    cy.log('Create the email address')
+    cy.mailtester().then(async (mailtester) => {
+      const emailAddress = await mailtester.createAddress()
+      assert.isDefined(emailAddress)  
 
-    cy.get('[data-testid=submit_btn]').click()
+      cy.log('Sign up for articles with the email address.')
+      cy.get('[data-testid=input_email]').type(emailAddress);
+      cy.get('[data-testid=submit_btn]').click();
 
-    cy.log('Check the email address is successfully sent.')
-    cy.url().should('eq', 'http://127.0.0.1:5000/thank_you')
-    //need to set up next steps
+      cy.log('Ensure that verification email is sent to the email address.')
+      cy.url().should('eq', 'http://127.0.0.1:5000/thank_you').then(async () => {
+        const email = await mailtester.waitForEmail(emailAddress)
+        assert.isDefined(email);
+        assert.strictEqual(/Klikněte pro aktivaci/.test(email.body), true)
+        
+        cy.log('Parse the link with activation code from the email.')
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(email.body, 'text/html')
+        const link = doc.querySelector('a').getAttribute('href')
+        assert.isDefined(link)
+
+        cy.log('Open the link and activate the email address.')
+        cy.visit(link)
+        cy.get('[data-testid=flash_message]').contains('Email byl úspěšně aktivován.')
+        cy.get('[data-testid=close_flash_message]').click()
+        cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+        cy.log('Go to main page and try to sign up with same email address.')
+        cy.visit('http://127.0.0.1:5000/')
+        cy.get('[data-testid=input_email]').type(emailAddress);
+        cy.get('[data-testid=submit_btn]').click();
+
+        cy.log('The email address is rejected with proper flash message.')
+        cy.get('[data-testid=flash_message]').contains('Tento email je již přihlášen.')
+        cy.get('[data-testid=close_flash_message]').click()
+        cy.get('[data-testid=flash_message]').should('not.be.visible')
+      });
+    });
   })
 });
 
