@@ -89,7 +89,7 @@ describe('Sign up for articles.', () => {
       const emailAddress = await mailtester.createAddress()
       assert.isDefined(emailAddress)  
 
-      // sign up with inbox email address and the password
+      // sign up with inbox email address
       cy.log('Sign up the email address and verify that the email is sent.')
       cy.get('[data-testid=input_email]').type(emailAddress);
       cy.get('[data-testid=submit_btn]').click();
@@ -103,7 +103,6 @@ describe('Sign up for articles.', () => {
 
         cy.log('Visit the link with invalid token and check the flash message.')
         const link = "http://127.0.0.1:5000/activation/d76dfb72a329"
-
         cy.visit(link)
         cy.get('[data-testid=flash_message]').contains('Platnost linku vypršela.')
         cy.get('[data-testid=close_flash_message]').click()
