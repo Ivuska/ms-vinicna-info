@@ -60,27 +60,19 @@ describe('Sign up for articles.', () => {
   it('Sign up without proper email address is not possible.', () => {
     cy.log('Try to submit empty email field.')
     cy.get('[data-testid=submit_btn]').click()
-
     cy.get('[data-testid=flash_message]').contains('Vyplňte prosím emailovou adresu.')
-  
     cy.get('[data-testid=close_flash_message]').click()
-
     cy.get('[data-testid=flash_message]').should('not.be.visible')
 
     cy.log('Try to submit email address in incorrect format.')
     cy.get('[data-testid=input_email]').type('imatsion')
-
     cy.get('[data-testid=submit_btn]').click()
-
     cy.get('[data-testid=flash_message]').contains('Emailová adresa nemá správný formát.')
-  
     cy.get('[data-testid=close_flash_message]').click()
-
     cy.get('[data-testid=flash_message]').should('not.be.visible')
 
     cy.log('Clear the email input.')
     cy.get('[data-testid=input_email]').clear()
-
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
   it('I cannot sign up for articles after the link is deactivated.', () => {
@@ -193,29 +185,20 @@ describe('Unsubscribe from getting articles.', () => {
   })
   it('Unsubscribe without proper email address is not possible.', () => {
     cy.log('Try to submit empty email field.')
-    
     cy.get('[data-testid=submit_unsubscribe_btn]').click()
-
     cy.get('[data-testid=flash_message]').contains('Vyplňte prosím emailovou adresu.')
-  
     cy.get('[data-testid=close_flash_message]').click()
-
     cy.get('[data-testid=flash_message]').should('not.be.visible')
 
     cy.log('Try to submit email address in incorrect format.')
     cy.get('[data-testid=input_email]').type('imatsion')
-
     cy.get('[data-testid=submit_unsubscribe_btn]').click()
-
     cy.get('[data-testid=flash_message]').contains('Emailová adresa nemá správný formát.')
-  
     cy.get('[data-testid=close_flash_message]').click()
-
     cy.get('[data-testid=flash_message]').should('not.be.visible')
 
     cy.log('Clear the email input.')
     cy.get('[data-testid=input_email]').clear()
-
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
   it('I cannot unsubscribe with email address that is not in db.', () => {
@@ -232,7 +215,54 @@ describe('Unsubscribe from getting articles.', () => {
     cy.get('[data-testid=input_email]').clear()
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
-  it.skip('I can unsubscribe from getting articles.', () => {
+  it('I can unsubscribe from getting articles.', () => {
+    cy.log('Create the email address.')
+    cy.mailtester().then(async (mailtester) => {
+      const emailAddress = await mailtester.createAddress()
+      assert.isDefined(emailAddress)  
 
+      cy.log('Sign up for articles with the email address.')
+      cy.visit('http://127.0.0.1:5000/')
+      cy.get('[data-testid=input_email]').type(emailAddress);
+      cy.get('[data-testid=submit_btn]').click();
+
+      cy.log('Ensure that verification email is sent to the email address.')
+      cy.url().should('eq', 'http://127.0.0.1:5000/thank_you').then(async () => {
+        const email = await mailtester.waitForEmail(emailAddress)
+        assert.isDefined(email);
+
+        // verify that email contains the code
+        assert.strictEqual(/Klikněte pro aktivaci/.test(email.body), true)
+        
+        cy.log('Parse the link with activation code from the email.')
+        // I cannot switch between two domains and then click the link so I explicitly parse the link from  
+        // the href attr of anchor and then visit this link.
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(email.body, 'text/html')
+        const link = doc.querySelector('a').getAttribute('href')
+        assert.isDefined(link)
+
+        cy.log('Open the link and activate the email address.')
+        cy.visit(link)
+        cy.get('[data-testid=flash_message]').contains('Email byl úspěšně aktivován.')
+        cy.get('[data-testid=close_flash_message]').click()
+        cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+        cy.visit('http://127.0.0.1:5000/unsubscribe')
+        cy.log('Try to submit email that is in db.')
+        cy.get('[data-testid=input_email]').type(emailAddress);
+        cy.get('[data-testid=submit_unsubscribe_btn]').click()
+
+        cy.log('Flash message that the email address is successfully unsubscribed.')
+        cy.get('[data-testid=flash_message]').contains('Odběr článků je zrušen.')
+        cy.get('[data-testid=close_flash_message]').click()
+        cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+        cy.log('Clear the email input.')
+        cy.get('[data-testid=input_email]').clear()
+        cy.get('[data-testid=input_email]').should('have.value', '')
+
+      });
+    });
   })
 });
