@@ -157,9 +157,12 @@ describe('Sign up for articles.', () => {
 });
 
 describe('Unsubscribe from getting articles.', () => {
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('session')
+    cy.visit('http://127.0.0.1:5000/unsubscribe')
+  })
   it('Unsubscribe without proper email address is not possible.', () => {
     cy.log('Try to submit empty email field.')
-    cy.visit('http://127.0.0.1:5000/unsubscribe')
     
     cy.get('[data-testid=submit_unsubscribe_btn]').click()
 
@@ -185,8 +188,19 @@ describe('Unsubscribe from getting articles.', () => {
 
     cy.get('[data-testid=input_email]').should('have.value', '')
   })
-  it.skip('I cannot unsubscribe with email address that is not in signed up.', () => {
+  it('I cannot unsubscribe with email address that is not in db.', () => {
+    cy.log('Try to submit email that is not in database.')
+    cy.get('[data-testid=input_email]').type('testemail@seznam.cz');
+    cy.get('[data-testid=submit_unsubscribe_btn]').click()
 
+    cy.log('Flash message that the email address is not registered should be visible.')
+    cy.get('[data-testid=flash_message]').contains('Odběr článků nejde zrušit - emailová adresa není registrována.')
+    cy.get('[data-testid=close_flash_message]').click()
+    cy.get('[data-testid=flash_message]').should('not.be.visible')
+
+    cy.log('Clear the email input.')
+    cy.get('[data-testid=input_email]').clear()
+    cy.get('[data-testid=input_email]').should('have.value', '')
   })
   it.skip('I can unsubscribe from getting articles.', () => {
 
