@@ -85,6 +85,7 @@ addEventListener("fetch", (event) => {
    * @returns {Promise<Response>}
    */
   async function handleRequest(request) {
+    console.log(request)
     if (request.headers.get('X-Auth-Token') !== AUTH_TOKEN) {
       return new Response('Unauthorized', { status: 401 })
     }
