@@ -29,7 +29,7 @@ jobs:
         uses: cypress-io/github-action@v4.2.0
         with:
           start: |
-            npx wrangler dev ./cf_worker/index.js --local --var AUTH_TOKEN:${WORKER_AUTH_TOKEN}
+            npx wrangler dev ./cf_worker/index.js --local --var AUTH_TOKEN:${{ env.WORKER_AUTH_TOKEN }}
             flask run
           browser: chrome
           record: true
