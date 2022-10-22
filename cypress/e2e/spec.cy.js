@@ -112,13 +112,16 @@ describe('Sign up for articles.', () => {
     });
   })
   it('Can generate a new email address and sign up for articles.', () => {
+    cy.log('Create the email address.')
     cy.mailtester().then(async (mailtester) => {
       const emailAddress = await mailtester.createAddress()
       assert.isDefined(emailAddress)  
 
-      // sign up with inbox email address and the password
+      cy.log('Sign up for articles with the email address.')
       cy.get('[data-testid=input_email]').type(emailAddress);
       cy.get('[data-testid=submit_btn]').click();
+
+      cy.log('Ensure that verification email is sent to the email address.')
       cy.url().should('eq', 'http://127.0.0.1:5000/thank_you').then(async () => {
         const email = await mailtester.waitForEmail(emailAddress)
         assert.isDefined(email);
@@ -126,26 +129,24 @@ describe('Sign up for articles.', () => {
         // verify that email contains the code
         assert.strictEqual(/Klikněte pro aktivaci/.test(email.body), true)
         
-
-        //I cannot switch between two domains and then click the link so I explicitly parse the link from the href attr of anchor and then 
-        // visit this link
+        cy.log('Parse the link with activation code from the email.')
+        // I cannot switch between two domains and then click the link so I explicitly parse the link from  
+        // the href attr of anchor and then visit this link.
         const parser = new DOMParser()
         const doc = parser.parseFromString(email.body, 'text/html')
         const link = doc.querySelector('a').getAttribute('href')
         assert.isDefined(link)
 
+        cy.log('Open the link and activate the email address.')
         cy.visit(link)
-
         cy.get('[data-testid=flash_message]').contains('Email byl úspěšně aktivován.')
-  
         cy.get('[data-testid=close_flash_message]').click()
-    
         cy.get('[data-testid=flash_message]').should('not.be.visible')
       });
     });
   });
   it('I cannot sign up for articles with the same email address.', () => {
-    cy.log('Create the email address')
+    cy.log('Create the email address.')
     cy.mailtester().then(async (mailtester) => {
       const emailAddress = await mailtester.createAddress()
       assert.isDefined(emailAddress)  
