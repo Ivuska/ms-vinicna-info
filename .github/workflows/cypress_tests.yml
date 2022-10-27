@@ -1,7 +1,26 @@
 name: Cypress Tests
 
 on:
-  workflow_call: 
+  workflow_call:
+    secrets:
+      CYPRESS_API_KEY: 
+        required: true
+      CYPRESS_RECORD_KEY: 
+        required: true
+      GITHUB_TOKEN: 
+        required: true
+      RECAPTCHA_SECRET_KEY: 
+        required: true
+      RECAPTCHA_SITE_KEY:
+        required: true
+      SENDER_EMAIL: 
+        required: true
+      PASSWORD: 
+        required: true
+      SERVER: 
+        required: true
+      PORT: 
+        required: true
   workflow_dispatch:
 
 jobs:

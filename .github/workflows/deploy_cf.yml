@@ -10,8 +10,19 @@ on:
 
 jobs:
   tests:
-    name: Run tests
+    name: Tests
     uses: ./.github/workflows/cypress_tests.yml
+    secrets:
+      CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
+      RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+      SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+      SERVER: ${{ secrets.SERVER }}
+      PORT: ${{ secrets.PORT }}
+
   deploy:
     name: Deploy worker 
     runs-on: ubuntu-latest
