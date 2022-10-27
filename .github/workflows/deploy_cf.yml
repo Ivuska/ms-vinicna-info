@@ -10,8 +10,10 @@ on:
 
 jobs:
   tests:
+    name: Run tests
     uses: ./.github/workflows/cypress_tests.yml
   deploy:
+    name: Deploy worker 
     runs-on: ubuntu-latest
     needs: [tests]
 
