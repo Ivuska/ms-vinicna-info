@@ -61,7 +61,7 @@ jobs:
           RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
           WORKER_URL: 'http://127.0.0.1:8787'
           FLASK_APP: app.app
-          FLASK_ENV: development
+          FLASK_DEBUG: true
           SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
           SERVER: ${{ secrets.SERVER }}
